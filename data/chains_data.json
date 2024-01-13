@@ -1,0 +1,18 @@
+{
+    "bsc": {
+        "rpc": [
+            "https://rpc.ankr.com/bsc"
+        ],
+        "explorer": "https://bscscan.com/tx/",
+        "token": "BNB",
+        "chain_id": 56
+    },
+    "op_bnb" : {
+        "rpc": [
+            "https://opbnb.publicnode.com"
+        ],
+        "explorer": "https://mainnet.opbnbscan.com/tx/",
+        "token": "BNB",
+        "chain_id": 204
+    }
+}
