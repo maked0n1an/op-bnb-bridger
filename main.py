@@ -12,6 +12,7 @@ from utils.config import (
 )
 from utils.helpers import delay, format_output
 from settings.settings import (
+    IS_ACCOUNT_NAMES,
     IS_SHUFFLE_WALLETS, 
     IS_SLEEP
 )
@@ -33,11 +34,12 @@ def is_bot_setuped_to_start():
     if len(PRIVATE_KEYS) == 0:
         logger.error("Don't imported private keys in 'private_keys.txt'!")
         return end_bot
-    if len(ACCOUNT_NAMES) == 0:
-        logger.error("Please insert names into wallet_names.txt")
+    if len(ACCOUNT_NAMES) == 0 and IS_ACCOUNT_NAMES:
+        logger.error("Please insert names into account_names.txt")
         return end_bot
-    if len(PRIVATE_KEYS) != len(ACCOUNT_NAMES):
-        logger.error("The wallet names' amount must be equal to private keys' amount")
+    if len(PRIVATE_KEYS) != len(ACCOUNT_NAMES) and IS_ACCOUNT_NAMES:
+        logger.error(
+            "The account names' amount must be equal to private keys' amount")
         return end_bot
     
     return True
@@ -60,12 +62,20 @@ def get_module_data():
     return result
 
 def get_wallets():
-    wallets = [
-        {
-            "name": wallet_name,
-            "key": key,
-        } for wallet_name, key, in zip(ACCOUNT_NAMES, PRIVATE_KEYS)
-    ]
+    if IS_ACCOUNT_NAMES:
+        wallets = [
+            {
+                "name": account_name,
+                "key": key,
+            } for account_name, key in zip(ACCOUNT_NAMES, PRIVATE_KEYS)
+        ]
+    else:
+        wallets = [
+            {
+                "name": _id,
+                "key": key,
+            } for _id, key, in enumerate(PRIVATE_KEYS)
+        ]    
 
     return wallets
 

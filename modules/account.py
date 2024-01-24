@@ -102,7 +102,7 @@ class Account:
                     return False
             except TransactionNotFound:
                 if time.time() - start_time > max_wait_time:
-                    self.logger.log_message(Status.FAILED, f"Tx not found: {tx_hash}")
+                    self.logger.log_message(Status.FAILED, f"Tx not found: {tx_hash.hex()}")
                     
                     return False
                 await asyncio.sleep(1) 

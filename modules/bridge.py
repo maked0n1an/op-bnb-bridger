@@ -50,6 +50,7 @@ class Bridge(Account):
                 'from': self.address,
                 'to': contract_address,
                 'gasPrice': gas_price,
+                'gas': 200000,
                 'nonce': nonce,
                 'data': data,
                 'value': amount_wei,
