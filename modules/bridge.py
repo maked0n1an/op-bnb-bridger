@@ -50,12 +50,17 @@ class Bridge(Account):
                 'from': self.address,
                 'to': contract_address,
                 'gasPrice': gas_price,
-                'gas': 200000,
                 'nonce': nonce,
                 'data': data,
                 'value': amount_wei,
                 'chainId': self.chain_id
-            }
+            }            
+            
+            gas = await self.web3.eth.estimate_gas(tx_data)
+            
+            tx_data.update({
+                'gas': gas
+            })
             
             return tx_data            
         except Exception as e:
