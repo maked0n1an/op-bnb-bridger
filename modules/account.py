@@ -1,11 +1,14 @@
 import asyncio
 import random
 import time
+from typing import Any
+from eth_typing import ChecksumAddress
 from hexbytes import HexBytes
 
 from web3 import AsyncWeb3, Web3
 from web3.types import Wei
 from web3.eth import AsyncEth
+from web3.contract import Contract
 from web3.exceptions import TransactionNotFound
 from eth_account import Account as EthAccount
 
@@ -30,7 +33,7 @@ class Account:
         self.explorer = CHAINS_DATA[account_info.chain]['explorer']
         self.chain_id = CHAINS_DATA[account_info.chain]['chain_id']
         self.token = CHAINS_DATA[account_info.chain]['token']
-        self.web3 = AsyncWeb3(
+        self.web3 = Web3(
             AsyncWeb3.AsyncHTTPProvider(random.choice(CHAINS_DATA[account_info.chain]["rpc"])),
             modules={'eth': (AsyncEth,)}, 
             middlewares=[],
@@ -40,10 +43,12 @@ class Account:
         
         self.logger = Logger(self.wallet_name, self.address)
     
-    def get_contract(self, contract_address: str):
+    def get_contract(self, contract_address: ChecksumAddress | str, abi: Any) -> Contract:
         contract_address = Web3.to_checksum_address(contract_address)
         
-        return str(contract_address)
+        contract = self.web3.eth.contract(address=contract_address, abi=abi)
+        
+        return contract
     
     async def get_nonce(self) -> int:
         nonce = await self.web3.eth.get_transaction_count(self.address)

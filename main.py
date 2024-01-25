@@ -74,7 +74,7 @@ def get_wallets():
             {
                 "name": _id,
                 "key": key,
-            } for _id, key, in enumerate(PRIVATE_KEYS)
+            } for _id, key, in enumerate(PRIVATE_KEYS, start=1)
         ]    
 
     return wallets

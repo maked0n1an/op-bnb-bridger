@@ -1,8 +1,11 @@
+from web3.contract import Contract
+
 from .token_amount import TokenAmount
 from .account import Account, AccountInfo
 
 from utils.helpers import retry
 from utils.config import (
+    BRIDGE_ABI,
     BRIDGE_CONTRACT
 )
 from utils.constants import Status
@@ -16,7 +19,7 @@ class Bridge(Account):
     @retry
     async def bridge_native_token(self, amount):        
         try:            
-            contract = self.get_contract(BRIDGE_CONTRACT)
+            contract = self.get_contract(BRIDGE_CONTRACT, BRIDGE_ABI)
             
             tx_data = await self._get_tx_data(contract, amount)
             
@@ -31,14 +34,13 @@ class Bridge(Account):
             
             return False
     
-    async def _get_tx_data(self, contract_address: str, value):
-        var1 = '1'
-        var2 = '40'
-        data = (
-            f'0xb1a1a882'
-            f'{var1:0>64}'
-            f'{var2:0>64}'
-            + '0' * 64
+    async def _get_tx_data(self, contract: Contract, value):        
+        data = contract.encodeABI(
+            'depositETH',
+            args=(
+                1,
+                '0x'
+            )
         )
         
         try:
@@ -48,7 +50,7 @@ class Bridge(Account):
             
             tx_data = {
                 'from': self.address,
-                'to': contract_address,
+                'to': str(contract.address),
                 'gasPrice': gas_price,
                 'nonce': nonce,
                 'data': data,
@@ -56,11 +58,8 @@ class Bridge(Account):
                 'chainId': self.chain_id
             }            
             
-            gas = await self.web3.eth.estimate_gas(tx_data)
-            
-            tx_data.update({
-                'gas': gas
-            })
+            gas = await self.web3.eth.estimate_gas(tx_data)            
+            tx_data['gas'] = gas
             
             return tx_data            
         except Exception as e:
