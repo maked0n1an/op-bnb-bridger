@@ -5,7 +5,7 @@ The README in English can be found here: [README_en.md](https://github.com/maked
 ## 🔗 Ссылки
 🔔 Канал: [M A K E D 0 N 1 A N](https://t.me/crypto_maked0n1an)
 
-[![Telegram channel](https://img.shields.io/endpoint?url=https://runkit.io/damiankrawczyk/telegram-badge/branches/master?url=https://t.me/crypto_maked0n1an)](https://t.me/crypto_maked0n1an)
+[![Telegram](https://img.shields.io/badge/-Telegram-090909?style=for-the-badge&logo=telegram)](https://t.me/crypto_maked0n1an)
 
 <h2>Описание</h2>
 Бот создан для отправки BNB из сети BSC в сеть opBNB. Делает это через Ankr-RPC, комиссия выходит около 6 центов.
@@ -31,6 +31,5 @@ The README in English can be found here: [README_en.md](https://github.com/maked
 
 ## Ссылки 
 <a name="Ссылки"></a> 
-- [![Telegram](https://img.shields.io/badge/-Telegram-090909?style=for-the-badge&logo=telegram)](https://t.me/crypto_maked0n1an)
 - [Гайд по аудиту софтов на наличие скамов](https://teletype.in/@brokeboi/dsxymHafdZb)
 - [Ультимативный гайд по запуску скриптов. Python.](https://teletype.in/@hodlmod.eth/how-to-run-scripts)

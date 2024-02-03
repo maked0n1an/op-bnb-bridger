@@ -31,6 +31,6 @@ Please note that we are not responsible for lost money resulting from the use of
 
 ## Links 
 <a name="Links"></a> 
-- [![Telegram](https://img.shields.io/badge/-Telegram-090909?style=for-the-badge&logo=telegram)](https://t.me/crypto_maked0n1an)
+[![Telegram](https://img.shields.io/badge/-Telegram-090909?style=for-the-badge&logo=telegram)](https://t.me/crypto_maked0n1an)
 - [Guide on auditing software for scams (RU)](https://teletype.in/@brokeboi/dsxymHafdZb)
 - [The ultimate guide to running scripts. Python. (RU)](https://teletype.in/@hodlmod.eth/how-to-run-scripts)
