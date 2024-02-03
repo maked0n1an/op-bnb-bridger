@@ -9,6 +9,7 @@ The README in English can be found here: [README_en.md](https://github.com/maked
 
 <h2>Описание</h2>
 Бот создан для отправки BNB из сети BSC в сеть opBNB. Делает это через Ankr-RPC, комиссия выходит около 6 центов.
+В папку 'input_data' вставляем в 'private_keys.txt' приватники. Все настройки в 'settings/settings.py'
 
 ## Установка и запуск
 Если у тебя нет знаний по поводу установки Питона и его запуска, аудита софтов, то тебе в раздел [Ccылки](#ссылки):
