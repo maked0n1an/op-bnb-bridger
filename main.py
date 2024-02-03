@@ -20,12 +20,14 @@ from settings.modules_settings import *
 
 
 def greetings():
-    brand_label = "========== M A K E D 0 N 1 A N =========="
-    name_label = "========= zkMessenger (via zkBridge) ========="
-    
+    name_label = "========= op-BNB Bridger ========="
+    brand_label = "========== Author: M A K E D 0 N 1 A N =========="
+    telegram = "======== https://t.me/crypto_maked0n1an ========"
+
     print("")
-    format_output(brand_label)
     format_output(name_label)
+    format_output(brand_label)
+    format_output(telegram)
 
 def is_bot_setuped_to_start():
     logger = Logger.setup_logger_for_output()
