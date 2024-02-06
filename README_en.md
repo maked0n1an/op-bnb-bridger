@@ -16,8 +16,8 @@ If you don’t have knowledge about installing Python and running it, then go to
 
 * Install libs:
 <pre><code>pip install -r requirements.txt</code></pre>
-* Go to 'account-generator' folder:
-<pre><code>cd account-generator</code></pre>
+* Go to 'op-bnb-bridger' folder:
+<pre><code>cd op-bnb-bridger</code></pre>
 * Launch in terminal:
 <pre><code>python main.py</code></pre>
 
