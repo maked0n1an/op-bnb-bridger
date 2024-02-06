@@ -16,8 +16,8 @@ The README in English can be found here: [README_en.md](https://github.com/maked
 
 * Устанавливаем библиотеки:
 <pre><code>pip install -r requirements.txt</code></pre>
-* Заходим в папку account-generator:
-<pre><code>cd account-generator</code></pre>
+* Заходим в папку op-bnb-bridger:
+<pre><code>cd op-bnb-bridger</code></pre>
 * Запускаем в терминале:
 <pre><code>python main.py</code></pre>
 
