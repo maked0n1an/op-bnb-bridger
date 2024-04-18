@@ -11,6 +11,7 @@ from web3.eth import AsyncEth
 from web3.contract import Contract
 from web3.exceptions import TransactionNotFound
 from eth_account import Account as EthAccount
+from eth_account.messages import encode_defunct
 
 from .logger import Logger
 from utils.config import CHAINS_DATA
@@ -78,7 +79,8 @@ class Account:
         return signed_tx           
 
     def sign_message(self, message):
-        signed_message = self.web3.eth.account.sign_message(message, self.private_key)
+        msg=encode_defunct(text=msg)
+        signed_message = self.web3.eth.account.sign_message(msg, self.private_key)
         
         return signed_message
     
