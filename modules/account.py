@@ -79,7 +79,7 @@ class Account:
         return signed_tx           
 
     def sign_message(self, message):
-        msg=encode_defunct(text=msg)
+        msg=encode_defunct(text=message)
         signed_message = self.web3.eth.account.sign_message(msg, self.private_key)
         
         return signed_message
