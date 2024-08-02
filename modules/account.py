@@ -14,7 +14,7 @@ from eth_account import Account as EthAccount
 from eth_account.signers.local import LocalAccount
 from eth_account.messages import encode_defunct
 
-from modules.token_amount import TokenAmount
+from modules.help_models import NetworksNames, TokenAmount
 
 from .logger import Logger
 from utils.config import CHAINS_DATA
@@ -65,9 +65,16 @@ class Account:
         
         return signed_message
     
+    def get_multiplier_of_gas(self) -> float:
+        mutlipliers_dict = {
+            NetworksNames.BSC: 1.5,
+            NetworksNames.OP_BNB: 100
+        }
+        return mutlipliers_dict[self.chain]
+    
     async def get_gas_price(self) -> Wei:
         gas_prices = {
-            'bsc': '1',
+            NetworksNames.BSC: '1',
         }  
         if self.chain in gas_prices:     
             gas_price = self.web3.to_wei(gas_prices[self.chain], 'gwei')

@@ -6,6 +6,7 @@ import questionary
 from questionary import Choice
 
 from modules import Logger
+from modules.help_models import NetworksNames
 from utils.config import (
     ACCOUNT_NAMES, 
     PRIVATE_KEYS,
@@ -50,8 +51,8 @@ def get_module_data():
     result = questionary.select(
         "Select a method to get started",
         choices=[
-            Choice("1) Bridge from BSC to opBNB", [bridge, 'bsc', 'op_bnb']),
-            Choice("2) Bridge from opBNB to BSC", [bridge, 'op_bnb', 'bsc']),
+            Choice("1) Bridge from BSC to opBNB", [bridge, NetworksNames.BSC, NetworksNames.OP_BNB]),
+            Choice("2) Bridge from opBNB to BSC", [bridge, NetworksNames.OP_BNB, NetworksNames.BSC]),
             Choice("3) Exit", "exit"),
         ],
         qmark="⚙️ ",
