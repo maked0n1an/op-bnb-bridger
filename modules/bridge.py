@@ -1,5 +1,7 @@
 from web3.contract import Contract
 
+from settings.settings import IS_TO_BRIDGE_FULL_BALANCE
+
 from .token_amount import TokenAmount
 from .account import Account, AccountInfo
 
@@ -26,7 +28,7 @@ class Bridge(Account):
             signed_tx = self.sign_tx(tx_data)
             tx_hash = await self.send_raw_transaction(signed_tx)
 
-            status = await self.wait_until_tx_finished(tx_hash, f"Successfully sent {amount}{self.token} to {self.to_chain}!", Status.BRIDGED)
+            status = await self.wait_until_tx_finished(tx_hash, f"Successfully sent {amount} {self.token} to {self.to_chain}!", Status.BRIDGED)
 
             return status
         except Exception as e:
@@ -36,31 +38,39 @@ class Bridge(Account):
             return False
 
     async def _get_tx_data(self, contract: Contract, value):
-        data = contract.encodeABI(
-            'depositETH',
-            args=(
-                1,
-                '0x'
-            )
-        )
-
         try:
-            gas_price = self.set_gas_price()
+            gas_price = await self.get_gas_price()
             nonce = await self.get_nonce()
-            amount_wei = TokenAmount(value).Wei
 
-            tx_data = {
-                'from': self.address,
-                'to': str(contract.address),
-                'gasPrice': gas_price,
-                'nonce': nonce,
-                'data': data,
-                'value': amount_wei,
-                'chainId': self.chain_id
-            }
+            if IS_TO_BRIDGE_FULL_BALANCE:
+                amount_wei = 1_000
+                tx_data = await contract.functions.depositETH(1, '0x').build_transaction(
+                    {
+                        'from': self.address,
+                        'nonce': nonce,
+                        'gasPrice': gas_price,
+                        'value': amount_wei
+                    }
+                )
 
-            gas = await self.web3.eth.estimate_gas(tx_data)
-            tx_data['gas'] = gas
+                gas = tx_data['gas']
+                balance = await self.get_balance()
+
+                amount = TokenAmount(
+                    balance.Wei - 100 * (gas * gas_price), 
+                    wei=True
+                )
+            else:
+                amount = TokenAmount(value)
+                
+            tx_data = await contract.functions.depositETH(1, '0x').build_transaction(
+                {
+                    'from': self.address,
+                    'nonce': nonce,
+                    'gasPrice': gas_price,
+                    'value': amount.Wei
+                }
+            )
 
             return tx_data
         except Exception as e:

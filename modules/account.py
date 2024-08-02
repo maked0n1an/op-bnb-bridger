@@ -10,8 +10,11 @@ from web3.types import Wei
 from web3.eth import AsyncEth
 from web3.contract import Contract
 from web3.exceptions import TransactionNotFound
-from eth_account import Account as EthAccount
+from eth_account import Account as EthAccount 
+from eth_account.signers.local import LocalAccount
 from eth_account.messages import encode_defunct
+
+from modules.token_amount import TokenAmount
 
 from .logger import Logger
 from utils.config import CHAINS_DATA
@@ -39,7 +42,7 @@ class Account:
             modules={'eth': (AsyncEth,)}, 
             middlewares=[],
         )
-        self.account = EthAccount.from_key(account_info.private_key)
+        self.account: LocalAccount = EthAccount.from_key(account_info.private_key)
         self.address = self.account.address
         
         self.logger = Logger(self.wallet_name, self.address)
@@ -51,28 +54,6 @@ class Account:
         
         return contract
     
-    async def get_nonce(self) -> int:
-        nonce = await self.web3.eth.get_transaction_count(self.address)
-
-        return nonce
-    
-    def set_gas_price(self) -> Wei:        
-        gas_prices = {
-            'bsc': '1',
-            'op_bnb': '0.00002'
-        }        
-        gas_price = self.web3.to_wei(gas_prices[self.chain], 'gwei')
-        
-        return gas_price
-    
-    async def estimate_gas(self, contract_address: str, data: str | dict):
-        estimate_gas = await self.web3.eth.estimate_gas({
-            'to': contract_address,
-            'data': data
-        })
-        
-        return estimate_gas
-    
     def sign_tx(self, tx_data):
         signed_tx = self.web3.eth.account.sign_transaction(tx_data, self.private_key)   
         
@@ -83,6 +64,35 @@ class Account:
         signed_message = self.web3.eth.account.sign_message(msg, self.private_key)
         
         return signed_message
+    
+    async def get_gas_price(self) -> Wei:
+        gas_prices = {
+            'bsc': '1',
+        }  
+        if self.chain in gas_prices:     
+            gas_price = self.web3.to_wei(gas_prices[self.chain], 'gwei')
+        else:
+            gas_price = await self.web3.eth.gas_price
+        
+        return gas_price
+    
+    async def get_nonce(self) -> int:
+        nonce = await self.web3.eth.get_transaction_count(self.address)
+
+        return nonce
+    
+    async def get_balance(self) -> TokenAmount:
+        balance = await self.web3.eth.get_balance(self.address)
+        
+        return TokenAmount(balance, wei=True)
+    
+    async def estimate_gas(self, contract_address: str, data: str | dict):
+        estimate_gas = await self.web3.eth.estimate_gas({
+            'to': contract_address,
+            'data': data
+        })
+        
+        return estimate_gas
     
     async def send_raw_transaction(self, signed_tx) -> HexBytes:
         txn_hash = await self.web3.eth.send_raw_transaction(signed_tx.rawTransaction)

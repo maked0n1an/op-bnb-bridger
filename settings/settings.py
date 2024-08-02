@@ -1,6 +1,6 @@
 # Bridge:
 #   from BSC to opBNB -> 'bsc'
-#   from opBNB to BSC -> 'op_bnb' (not working)
+#   from opBNB to BSC -> 'op_bnb'
 
 # Do you want to use wallet names or generate ID's by program?
 #   Use own names: True
@@ -16,6 +16,8 @@ SLEEP_TO = 600 # secs
 
 MIN_AMOUNT = 0.0002 # in BNB
 MAX_AMOUNT = 0.0008 # in BNB
+
+IS_TO_BRIDGE_FULL_BALANCE = True
 
 # How many decimals must be in float?
 # For example, 

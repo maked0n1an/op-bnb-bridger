@@ -51,7 +51,7 @@ def get_module_data():
         "Select a method to get started",
         choices=[
             Choice("1) Bridge from BSC to opBNB", [bridge, 'bsc', 'op_bnb']),
-            # Choice("2) Bridge from opBNB to BSC", [bridge, 'op_bnb', 'bsc']),
+            Choice("2) Bridge from opBNB to BSC", [bridge, 'op_bnb', 'bsc']),
             Choice("3) Exit", "exit"),
         ],
         qmark="⚙️ ",

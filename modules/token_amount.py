@@ -9,7 +9,7 @@ class TokenAmount:
 
     def __init__(self, amount: Union[int, float, str, Decimal], decimals: int = 18, wei: bool = False) -> None:
         if wei:
-            self.Wei: int = amount
+            self.Wei: int = int(amount)
             self.Ether: Decimal = Decimal(str(amount)) / 10 ** decimals
         else:
             self.Wei: int = int(Decimal(str(amount)) * 10 ** decimals)

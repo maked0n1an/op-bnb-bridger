@@ -13,11 +13,7 @@ async def bridge(wallet_name, private_key, from_chain, to_chain) -> bool:
     
     chain - bsc | op_bnb
     '''
-    min_amount = MIN_AMOUNT
-    max_amount = MAX_AMOUNT
-    decimal = DECIMAL   
-    
-    amount = round(random.uniform(min_amount, max_amount), decimal)
+    amount = round(random.uniform(MIN_AMOUNT, MAX_AMOUNT), DECIMAL)
     
     account_info = AccountInfo(wallet_name, private_key, from_chain)    
     bridge = Bridge(account_info, to_chain)
